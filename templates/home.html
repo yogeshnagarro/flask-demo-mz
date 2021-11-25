@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %} 
+Home Page
+{% endblock %}
+{% block content %}
+<p>Home page for the Visual Studio Code Flask tutorial.</p>
+
+{%if name %}
+<span class="message">Hello there, {{ name }}!</span>
+<p class="message">It's {{ date.strftime("%A, %d %B, %Y at %X") }}.</p>
+{% else %}
+<span class="message">What's your name? Provide it after /hello/ in the URL.</span>
+{% endif %}
+
+{% endblock %}

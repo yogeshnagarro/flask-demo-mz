@@ -1,0 +1,140 @@
+{% extends "layout.html"%}
+{% block head%}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
+  rel="stylesheet" />
+{% endblock%}
+{% block content %}
+<h1>Dashboard - Windmill data</h1>
+<div class="row">
+  <div class="btn-toolbar mb-2 mb-md-0 float-right">
+    <form class="form-inline btn-toolbar mb-2 mb-md-0" action="/home" method="post">
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">Latitude</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Latitude" name="Latitude" aria-label="Latitude"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">Longitude</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Longitude" name="Longitude" aria-label="Longitude"
+          aria-describedby="basic-addon1">
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+    <div id="toolbar" class="col pl-md-5"></div>
+  </div>
+
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-sm" id="table-data" data-toggle="true" data-buttons-toolbar="#toolbar"
+    data-search="true" data-show-columns="true" data-pagination="true" data-height="500">
+  </table>
+</div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-sm btn-outline-secondary">Share</button>
+      <button class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" onclick="getDatePicker()">
+      <span data-feather="calendar" onclick="getDatePicker()"></span>
+      <input data-date-format="dd/mm/yyyy" id="datepicker" class="btn-outline-secondary" style="border: transparent;">
+    </button>
+  </div>
+</div>
+
+
+
+<canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+<script type='text/javascript'>
+  $(document).ready(function () {
+
+    var data = JSON.parse('{{users|tojson}}');
+    var columns = JSON.parse('{{columns|tojson}}');
+
+    $(function () {
+      $('#table-data').bootstrapTable({
+        data: data,
+        columns: columns,
+      });
+
+    });
+
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<style type="text/css">
+  .datepicker {
+    font-size: 0.875em;
+    border: 0px none transparent;
+  }
+
+  /* solution 2: the original datepicker use 20px so replace with the following:*/
+
+  .datepicker td,
+  .datepicker th {
+    width: 1.5em;
+    height: 1.5em;
+  }
+</style>
+<script type="text/javascript">
+  function getDatePicker() {
+    $('#datepicker').focus();
+  }
+  $('#datepicker').datepicker({
+    weekStart: 1,
+    daysOfWeekHighlighted: "6,0",
+    autoclose: true,
+    todayHighlight: true,
+  });
+  $('#datepicker').datepicker("setDate", new Date());
+</script>
+
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var data = JSON.parse('{{users|tojson}}');
+    var labels = [];
+    var ds = []
+    data.forEach(dt => {
+      labels.push(dt['date-time']);
+      ds.push(dt['power-avg'])
+    });
+
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+
+      data: {
+        labels: labels,
+        datasets: [{
+          data: ds,
+          label: "This",
+          lineTension: 0.1,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 2,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+            label: "This is month"
+          }]
+        },
+        legend: {
+          display: true,
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}
