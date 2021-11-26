@@ -76,7 +76,7 @@ def home():
 
 @app.route("/api/data")
 def get_data(Latitude = 0,Longitude=0):
-    url = "http://localhost:3800/forecast/data?lat={}&lon={}&appid=37d73035b107a29659dac1d0276d4d75".format(Latitude,Longitude)
+    url = "https://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid=37d73035b107a29659dac1d0276d4d75".format(Latitude,Longitude)
     print(url)
     response = urllib.request.urlopen(url)
     data = response.read()
