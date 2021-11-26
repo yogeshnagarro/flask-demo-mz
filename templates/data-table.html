@@ -2,6 +2,7 @@
 {% block head%}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
   rel="stylesheet" />
+  <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
 {% endblock%}
 {% block content %}
 <h1>Dashboard - Windmill data</h1>
@@ -35,9 +36,22 @@
 <label>showing forecast for - Latitude: <b>{{lat}}</b>, Longitude: <b>{{long}}</b>, city: <b>{{city_}}</b></label>
 </div>
 </div>
+<style>
+#toolbar {
+  margin: 0;
+}
+</style>
 <div class="table-responsive">
-  <table class="table table-striped table-sm" id="table-data" data-toggle="true" data-buttons-toolbar="#toolbar"
-    data-search="true" data-show-columns="true" data-pagination="true" data-height="500">
+  <table class="table table-striped table-sm" 
+  id="table-data" 
+  data-toggle="true" 
+  data-buttons-toolbar="#toolbar"
+  data-show-export="true"
+  data-click-to-select="true"
+    data-search="true" 
+    data-show-columns="true" 
+    data-pagination="true" 
+    data-height="500">
   </table>
 </div>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -55,7 +69,8 @@
 
 
 
-<canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+<canvas class="my-4" id="myChart" style="background-image:url('static/images/turbine.jpg');-webkit-background-size: cover;" width="900" height="380"></canvas>
+
 <script type='text/javascript'>
   $(document).ready(function () {
 
@@ -63,10 +78,12 @@
     var columns = JSON.parse('{{columns|tojson}}');
 
     $(function () {
-      $('#table-data').bootstrapTable({
+      $('#table-data').bootstrapTable('destroy').bootstrapTable({
+      exportDataType: "all",
+      exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
         data: data,
-        columns: columns,
-      });
+        columns: columns
+      }).trigger('change');
 
     });
 
