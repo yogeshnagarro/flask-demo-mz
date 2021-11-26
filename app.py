@@ -1,5 +1,4 @@
-import os
-from flask import Flask, render_template, url_for, json, request
+from flask import Flask, render_template, json, request
 import urllib.request, numpy, pickle
 
 app = Flask(__name__)
