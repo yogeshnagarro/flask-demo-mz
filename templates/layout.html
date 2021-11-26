@@ -23,7 +23,7 @@
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark-cu flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">{{companyName}}</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><b>{{companyName}}</b></a>
         <!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
@@ -32,9 +32,9 @@
         </ul>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-image:url('static/images/turbine.jpg');-webkit-background-size: cover">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="display:None!important">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -111,7 +111,7 @@
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-sm-auto col-lg-11 px-md-4">
                 {% block content %}
                 {% endblock %}
             </main>
